@@ -1,0 +1,50 @@
+@model midterm_Regalado.Models.Product
+
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<h1>Delete Perfume</h1>
+
+<div class="alert alert-danger">
+    <strong>Warning:</strong>
+    Are you sure you want to delete this product?
+</div>
+
+<div class="card">
+    <div class="card-body">
+
+        <h3>@Model.Name</h3>
+
+        <p>
+            @Model.Description
+        </p>
+
+        <p>
+            <strong>Category:</strong>
+            @Model.Category
+        </p>
+
+        <p>
+            <strong>Price:</strong>
+            ₱@Model.Price.ToString("N2")
+        </p>
+
+        <form asp-action="Delete" method="post">
+
+            <input type="hidden" asp-for="Id" />
+
+            <button type="submit"
+                    class="btn btn-danger">
+                Yes, Delete
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                Cancel
+            </a>
+
+        </form>
+
+    </div>
+</div>

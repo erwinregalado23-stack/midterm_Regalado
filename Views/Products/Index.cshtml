@@ -1,0 +1,76 @@
+@model IEnumerable<midterm_Regalado.Models.Product>
+
+@{
+    ViewData["Title"] = "Perfume Store";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>🌸 Perfume Store</h1>
+
+    <a asp-action="Create" class="btn btn-primary">
+        + Add Product
+    </a>
+</div>
+
+<div class="row">
+    @if (!Model.Any())
+    {
+        <div class="col-12">
+            <div class="alert alert-info">
+                No perfumes available yet. Add your first product!
+            </div>
+        </div>
+    }
+    else
+    {
+        @foreach (var product in Model)
+        {
+            <div class="col-md-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body">
+                        <h4 class="card-title">@product.Name</h4>
+
+                        <span class="badge bg-secondary mb-2">
+                            @product.Category
+                        </span>
+
+                        <p class="card-text">
+                            @product.Description
+                        </p>
+
+                        <h5 class="text-primary">
+                            ₱@product.Price.ToString("N2")
+                        </h5>
+
+                        <div class="mt-3">
+                            <a asp-action="Edit"
+                               asp-route-id="@product.Id"
+                               class="btn btn-warning btn-sm">
+                                Edit
+                            </a>
+
+                            <a asp-action="Delete"
+                               asp-route-id="@product.Id"
+                               class="btn btn-danger btn-sm">
+                                Delete
+                            </a>
+
+                            <form asp-controller="Cart"
+                                  asp-action="AddToCart"
+                                  asp-route-productId="@product.Id"
+                                  method="post"
+                                  class="d-inline">
+
+                                <button type="submit"
+                                        class="btn btn-success btn-sm">
+                                    🛒 Add to Cart
+                                </button>
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

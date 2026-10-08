@@ -1,0 +1,87 @@
+@model midterm_Regalado.Models.Product
+
+@{
+    ViewData["Title"] = "Add Product";
+}
+
+<h1>Add New Perfume</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-6">
+
+        <form asp-action="Create" method="post">
+
+            <div class="mb-3">
+                <label asp-for="Name" class="form-label">
+                    Perfume Name
+                </label>
+
+                <input asp-for="Name"
+                       class="form-control"
+                       placeholder="Enter perfume name" />
+
+                <span asp-validation-for="Name"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Description"
+                       class="form-label">
+                    Description
+                </label>
+
+                <textarea asp-for="Description"
+                          class="form-control"
+                          rows="4"
+                          placeholder="Describe the perfume"></textarea>
+
+                <span asp-validation-for="Description"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Price"
+                       class="form-label">
+                    Price
+                </label>
+
+                <input asp-for="Price"
+                       class="form-control"
+                       type="number"
+                       step="0.01"
+                       placeholder="0.00" />
+
+                <span asp-validation-for="Price"
+                      class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Category"
+                       class="form-label">
+                    Category
+                </label>
+
+                <input asp-for="Category"
+                       class="form-control"
+                       placeholder="e.g. Floral, Woody, Fresh" />
+
+                <span asp-validation-for="Category"
+                      class="text-danger"></span>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary">
+                Add Product
+            </button>
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                Back
+            </a>
+
+        </form>
+
+    </div>
+</div>
