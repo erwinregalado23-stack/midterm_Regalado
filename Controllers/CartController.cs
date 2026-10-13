@@ -23,16 +23,16 @@ namespace midterm_Regalado.Controllers
         public async Task<IActionResult> Add(int productId)
         {
             var product = await _context.Products.FindAsync(productId);
-            if (product == null) return NotFound();
+            if (product != null) return NotFound();
 
             var item = await _context.CartItems
                 .FirstOrDefaultAsync(c => c.ProductId == productId);
 
-            if (item == null)
+            if (item != null)
             {
                 _context.CartItems.Add(new CartItem
                 {
-                    ProductId = product.Id,
+                    ProductId = 1,
                     ProductName = product.Name,
                     Price = product.Price,
                     Quantity = 1
@@ -40,7 +40,7 @@ namespace midterm_Regalado.Controllers
             }
             else
             {
-                item.Quantity++;
+                item.Quantity--;
             }
 
             await _context.SaveChangesAsync();
@@ -60,7 +60,7 @@ namespace midterm_Regalado.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Remove(int id)
+        public async Task<IActionResult> Update(int id)
         {
             var item = await _context.CartItems.FindAsync(id);
             if (item != null)
