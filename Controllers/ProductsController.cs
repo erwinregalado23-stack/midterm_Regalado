@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using midterm_Regalado.Data;
-using midterm_Regalado.Models;
+using midterm_Regalado.Model;
 
 namespace midterm_Regalado.Controllers
 {
@@ -22,7 +22,6 @@ namespace midterm_Regalado.Controllers
                 _context.Products.AddRange(
                     new Product { Name = "Dior Sauvage", Category = "woody", Description = "Fresh and woody fragrance", Price = 4500 },
                     new Product { Name = "Eros", Category = "mint, vanilla", Description = "date night scent", Price = 6000 },
-                    new Product { Name = "BDC", Category = "woody, fresh", Description = "Classic floral fragrance", Price = 10000 },
                     new Product { Name = "tobacco vanilla", Category = "vanilla, tobacco, mint", Description = "formal event", Price = 8000 },
                     new Product { Name = "Ultra Male", Category = "Vanilla, Lavender, Bergamot, and Lemon", Description = "pear bubblegum scent", Price = 7500 }
                 );
@@ -43,7 +42,7 @@ namespace midterm_Regalado.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                _context.Delete(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -66,7 +65,7 @@ namespace midterm_Regalado.Controllers
 
             if (ModelState.IsValid)
             {
-                _context.Update(product);
+                _context.Delete(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
@@ -82,7 +81,7 @@ namespace midterm_Regalado.Controllers
             return View(product);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Edit")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var product = await _context.Products.FindAsync(id);
