@@ -1,76 +1,76 @@
+
 @model IEnumerable<midterm_Regalado.Models.Product>
 
 @{
     ViewData["Title"] = "Products";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <h1>Our Perfumes</h1>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Perfume Products</h1>
 
-    <a asp-action="Create" class="btn btn-primary">
-        + Add Product
-    </a>
-</div>
+        <a asp-controller="Products"
+           asp-action="Create"
+           class="btn btn-primary">
+            + Add New Product
+        </a>
+    </div>
 
-<div class="row">
-    @foreach (var item in Model)
-    {
-        <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
+    <div class="row">
+        @foreach (var item in Model)
+        {
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title">@item.Name</h4>
 
-                <div class="card-body">
-                    <h4 class="card-title">@item.Name</h4>
+                        <p class="card-text">
+                            @item.Description
+                        </p>
 
-                    <p class="card-text">
-                        @item.Description
-                    </p>
+                        <p>
+                            <strong>Category:</strong>
+                            @item.Category
+                        </p>
 
-                    <p>
-                        <strong>Category:</strong>
-                        @item.Category
-                    </p>
+                        <h5 class="text-primary mb-3">
+                            @item.Price.ToString("N2")
+                        </h5>
 
-                    <h5 class="text-primary">
-                        ₱@item.Price.ToString("N2")
-                    </h5>
-                </div>
+                        <div class="mt-auto">
+                            <form asp-controller="Cart"
+                                  asp-action="AddToCart"
+                                  method="post"
+                                  class="mb-2">
+                                <input type="hidden"
+                                       name="productId"
+                                       value="@item.Id" />
 
-                <div class="card-footer bg-white">
+                                <button type="submit"
+                                        class="btn btn-success w-100">
+                                    🛒 Add to Cart
+                                </button>
+                            </form>
 
-                    <form asp-controller="Cart"
-                          asp-action="Add"
-                          method="post"
-                          class="mb-2">
+                            <div class="d-flex gap-2">
+                                <a asp-controller="Products"
+                                   asp-action="Edit"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-warning flex-fill">
+                                    Edit
+                                </a>
 
-                        <input type="hidden"
-                               name="productId"
-                               value="@item.Id" />
-
-                        <button type="submit"
-                                class="btn btn-success w-100">
-                            🛒 Add to Cart
-                        </button>
-
-                    </form>
-
-                    <div class="d-flex gap-2">
-
-                        <a asp-action="Edit"
-                           asp-route-id="2"
-                           class="btn btn-warning flex-fill">
-                            Edit
-                        </a>
-
-                        <a asp-action="Delete"
-                           asp-route-id="1"
-                           class="btn btn-danger flex-fill">
-                            Delete
-                        </a>
-
+                                <a asp-controller="Products"
+                                   asp-action="Delete"
+                                   asp-route-id="@item.Id"
+                                   class="btn btn-danger flex-fill">
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
-        </div>
-    }
+        }
+    </div>
 </div>

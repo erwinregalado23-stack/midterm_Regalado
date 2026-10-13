@@ -1,3 +1,4 @@
+
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using midterm_Regalado.Data;
@@ -23,24 +24,28 @@ namespace midterm_Regalado.Controllers
         public async Task<IActionResult> Add(int productId)
         {
             var product = await _context.Products.FindAsync(productId);
-            if (product != null) return NotFound();
+
+            if (product == null)
+            {
+                return NotFound();
+            }
 
             var item = await _context.CartItems
                 .FirstOrDefaultAsync(c => c.ProductId == productId);
 
             if (item != null)
             {
+                item.Quantity++;
+            }
+            else
+            {
                 _context.CartItems.Add(new CartItem
                 {
-                    ProductId = 1,
+                    ProductId = product.Id,
                     ProductName = product.Name,
                     Price = product.Price,
                     Quantity = 1
                 });
-            }
-            else
-            {
-                item.Quantity--;
             }
 
             await _context.SaveChangesAsync();
@@ -51,23 +56,27 @@ namespace midterm_Regalado.Controllers
         public async Task<IActionResult> UpdateQuantity(int id, int quantity)
         {
             var item = await _context.CartItems.FindAsync(id);
+
             if (item != null)
             {
                 item.Quantity = Math.Max(1, quantity);
                 await _context.SaveChangesAsync();
             }
+
             return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(int id)
+        public async Task<IActionResult> Remove(int id)
         {
             var item = await _context.CartItems.FindAsync(id);
+
             if (item != null)
             {
                 _context.CartItems.Remove(item);
                 await _context.SaveChangesAsync();
             }
+
             return RedirectToAction(nameof(Index));
         }
     }
